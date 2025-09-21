@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GhostLine Access</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #0d0d0d, #1a0026);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+    }
+
+    /* Floating ghost intro */
+    .ghost-intro {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      font-size: 5rem;
+      opacity: 0;
+      animation: ghostFade 3s ease forwards;
+      z-index: 999;
+    }
+
+    @keyframes ghostFade {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    }
+
+    .card {
+      background: rgba(40, 0, 60, 0.9);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0px 5px 25px rgba(255, 0, 255, 0.5);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .card h1 {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      color: #e6b3ff;
+      text-shadow: 0px 0px 10px #ff00ff;
+    }
+
+    .btn {
+      display: block;
+      background: #6600cc;
+      color: white;
+      text-decoration: none;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #9900ff;
+      transform: scale(1.05);
+    }
+
+    .btn.locked {
+      background: #333;
+      cursor: not-allowed;
+    }
+
+    /* ✅ unlocked style */
+    .btn.unlocked {
+      background: #00cc66;
+      color: #fff;
+      position: relative;
+    }
+
+    .btn.unlocked::after {
+      content: " ✅";
+      font-size: 1.2rem;
+    }
+
+    .progress {
+      margin-top: 20px;
+      background: #1a001f;
+      border-radius: 12px;
+      padding: 15px;
+      color: #ffccff;
+      font-weight: bold;
+      border: 1px solid #660066;
+    }
+
+    .pending {
+      color: #ff66ff;
+    }
+
+    .done {
+      color: #00ff99;
+    }
+  </style>
+</head>
+<body>
+  <!-- Ghost Intro -->
+  <div class="ghost-intro">👻</div>
+
+  <div class="card">
+    <h1>👻 GhostLine Premium Access</h1>
+    <a id="articleBtn" href="https://www.nature.com/nature/articles" target="_blank" class="btn">📖 Read an Article</a>
+    <a href="https://www.roblox.com/share?code=fa8215be2da9df4c95aef0f181c54be7&type=Server" class="btn">👥 Join Roblox Group</a>
+    <div class="btn locked">🔒 Locked</div>
+
+    <div class="progress">
+      Progress Status <br>
+      <span id="articleStatus">⏳ <span class="pending">Pending</span></span><br>
+      ⏳ <span class="pending">Pending</span>
+    </div>
+  </div>
+
+  <script>
+    const articleBtn = document.getElementById("articleBtn");
+    const articleStatus = document.getElementById("articleStatus");
+
+    // Check saved progress
+    if (localStorage.getItem("articleDone") === "true") {
+      unlockArticle();
+    }
+
+    // When clicked, mark it as done for next visit
+    articleBtn.addEventListener("click", () => {
+      localStorage.setItem("articleDone", "true");
+    });
+
+    function unlockArticle() {
+      articleBtn.classList.add("unlocked");
+      articleStatus.innerHTML = "✅ <span class='done'>Completed</span>";
+    }
+  </script>
+</body>
+</html>
